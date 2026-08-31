@@ -1,0 +1,108 @@
+\documentclass[aspectratio=169,10pt]{beamer}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{ragged2e}
+
+% Minimal conference palette: dark navy plus one teal accent.
+\definecolor{Navy}{HTML}{18334F}
+\definecolor{Teal}{HTML}{007C78}
+\definecolor{Ink}{HTML}{202830}
+\definecolor{Muted}{HTML}{66727D}
+\definecolor{Canvas}{HTML}{FCFCFB}
+\definecolor{Rule}{HTML}{D9DEE2}
+\definecolor{PaleTeal}{HTML}{E8F3F2}
+
+\renewcommand{\familydefault}{\sfdefault}
+\setbeamercolor{background canvas}{bg=Canvas}
+\setbeamercolor{normal text}{fg=Ink,bg=Canvas}
+\setbeamercolor{frametitle}{fg=Navy,bg=Canvas}
+\setbeamercolor{structure}{fg=Teal}
+\setbeamercolor{alerted text}{fg=Teal}
+
+\setbeamerfont{normal text}{size=\fontsize{11.2}{13.5}}
+\setbeamerfont{frametitle}{size=\fontsize{21.5}{24},series=\bfseries}
+\setbeamerfont{framesubtitle}{size=\fontsize{9.2}{10.8},series=\bfseries}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamersize{text margin left=0.74cm,text margin right=0.74cm}
+\setlength{\leftmargini}{1.05em}
+\setlength{\leftmarginii}{1.00em}
+\setbeamertemplate{itemize item}{\raise0.20ex\hbox{\color{Teal}\scriptsize$\blacksquare$}}
+\setbeamertemplate{itemize subitem}{\raise0.15ex\hbox{\color{Teal}\tiny$\blacktriangleright$}}
+
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\paperwidth,leftskip=0.74cm,rightskip=0.74cm]{frametitle}
+    \vspace{0.07cm}
+    {\raggedright\usebeamerfont{framesubtitle}\color{Teal}\MakeUppercase{\insertframesubtitle}\strut\par}
+    \vspace{-0.02cm}
+    {\raggedright\usebeamerfont{frametitle}\insertframetitle\strut\par}
+    \vspace{0.06cm}
+  \end{beamercolorbox}%
+  \hspace{0.74cm}{\color{Rule}\rule{\dimexpr\paperwidth-1.48cm\relax}{0.45pt}}
+}
+
+\newif\ifbackup
+\backupfalse
+\setbeamertemplate{footline}{%
+  \ifbackup
+  \else
+    \leavevmode
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.30cm,dp=0.12cm,leftskip=0.74cm,rightskip=0.74cm]{author in head/foot}
+      \fontsize{8.8}{10.2}\selectfont\color{Muted}%
+      ELEN90098 \hspace{0.38em}|\hspace{0.38em} Workshop 1: Multi-Armed Bandits
+      \hfill\insertframenumber/11
+    \end{beamercolorbox}%
+  \fi
+}
+
+\newcommand{\key}[1]{\textcolor{Teal}{\textbf{#1}}}
+\newcommand{\smallnote}[1]{{\fontsize{8.8}{10.6}\selectfont\color{Muted}#1}}
+\newcommand{\micro}[1]{{\fontsize{7.8}{9.2}\selectfont\color{Muted}#1}}
+\newcommand{\metric}[2]{%
+  \begin{minipage}[t]{0.47\linewidth}
+    {\fontsize{18}{20}\selectfont\color{Navy}\bfseries #1}\par
+    \vspace{0.03cm}{\fontsize{9.2}{11}\selectfont\color{Muted}#2}
+  \end{minipage}%
+}
+\newcommand{\callout}[1]{%
+  \begin{beamercolorbox}[wd=\dimexpr\linewidth-0.08cm\relax,sep=0.13cm,leftskip=0.14cm,rightskip=0.14cm]{normal text}
+    \raggedright\fontsize{10.2}{12.1}\selectfont\color{Navy}\bfseries #1\par
+  \end{beamercolorbox}%
+}
+\newcommand{\flatbox}[1]{%
+  \begin{beamercolorbox}[wd=\linewidth,sep=0.14cm,leftskip=0.16cm,rightskip=0.16cm]{block body}
+    \raggedright #1\par
+  \end{beamercolorbox}%
+}
+\setbeamercolor{block body}{bg=PaleTeal,fg=Ink}
+
+\graphicspath{{figures/}}
+
+\begin{document}
+
+\input{slides/slide_01_title}
+\input{slides/slide_02_setup}
+\input{slides/slide_03_q1_regret}
+\input{slides/slide_04_q2_numerical_test}
+\input{slides/slide_05_q3_evidence}
+\input{slides/slide_06_q3_interpretation}
+\input{slides/slide_07_q4_ucb_values}
+\input{slides/slide_08_q5_ucb_epsilon}
+\input{slides/slide_09_q6_gradient_ucb}
+\input{slides/slide_10_q7_alpha}
+\input{slides/slide_11_summary}
+
+\backuptrue
+\input{slides/appendix_a1_epsilon_diagnostics}
+\input{slides/appendix_a2_rare_failure}
+\input{slides/appendix_a3_ucb_details}
+\input{slides/appendix_a4_gradient_sweep}
+\input{slides/appendix_a5_algorithms}
+
+\end{document}

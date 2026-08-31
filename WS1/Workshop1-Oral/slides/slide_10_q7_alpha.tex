@@ -1,0 +1,30 @@
+\begin{frame}{Gradient step-size sensitivity}
+  \framesubtitle{Q7}
+  \vspace{-0.08cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.56\textwidth}
+      \centering
+      \includegraphics[height=4.25cm,keepaspectratio]{q7_gradient_alpha_sensitivity.png}
+    \end{column}
+    \begin{column}{0.41\textwidth}
+      \textbf{Final performance at \(T=10^4\)}
+      \vspace{0.06cm}
+      {\fontsize{8.6}{9.8}\selectfont
+      \begin{tabular}{@{}rrr@{}}
+        \toprule
+        \(\alpha\) & mean \(P_T(a_*)\) & \(\widehat R_T\)\\
+        \midrule
+        0.01 & 0.9952 & 1542.45\\
+        0.05 & \textbf{0.9991} & 357.39\\
+        0.10 & 0.9896 & \textbf{314.58}\\
+        0.50 & 0.7899 & 1968.16\\
+        2.00 & 0.5500 & 5358.04\\
+        5.00 & 0.3233 & 11148.71\\
+        \bottomrule
+      \end{tabular}}
+      \vspace{0.03cm}
+      \flatbox{{\fontsize{9.5}{11.1}\selectfont At \(\alpha=5\): 32.33\% of runs end above 0.99, 67.67\% below 0.01, and none in between.}}\par
+      \vspace{-0.01cm}\micro{Our results do not support optimal-arm convergence for arbitrary \(\alpha>0\).}
+    \end{column}
+  \end{columns}
+\end{frame}

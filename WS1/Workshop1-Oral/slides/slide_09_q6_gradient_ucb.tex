@@ -1,0 +1,29 @@
+\begin{frame}{Gradient bandit versus UCB}
+  \framesubtitle{Q6}
+  \vspace{-0.07cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.68\textwidth}
+      \centering
+      \includegraphics[height=4.70cm,keepaspectratio]{q6_gradient_vs_ucb_regret.png}
+    \end{column}
+    \begin{column}{0.29\textwidth}
+      \textbf{Regret at \(T=10^4\)}
+      \vspace{0.08cm}
+      {\fontsize{9.3}{11.0}\selectfont
+      \begin{tabular}{@{}lr@{}}
+        \toprule
+        policy & \(\widehat R_T\)\\
+        \midrule
+        UCB \(c=1\) & \textbf{80.58}\\
+        UCB \(c=2\) & 160.29\\
+        Grad. \(\alpha=0.1\) & 314.58\\
+        Grad. \(\alpha=0.5\) & 1968.16\\
+        UCB \(c=0\) & 1408.07\\
+        \bottomrule
+      \end{tabular}}\par
+      \vspace{0.12cm}
+      \flatbox{{\fontsize{14.5}{17}\selectfont\bfseries\color{Navy}3.90\(\times\) more regret}\par
+      \micro{Best gradient versus UCB \(c=1\), on this experiment.}}
+    \end{column}
+  \end{columns}
+\end{frame}

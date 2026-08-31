@@ -1,0 +1,33 @@
+\begin{frame}{Rare-failure audit for $\varepsilon_t=0.99^t$}
+  \framesubtitle{BACKUP A2 -- Q3}
+  \vspace{0.12cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.47\textwidth}
+      \textbf{Run-level result, \(30{,}000\) to \(100{,}000\)}\par
+      \vspace{0.18cm}
+      \metric{499}{near-zero-slope runs}\hfill
+      \metric{1}{run at slope 0.84829}
+      \vspace{0.30cm}
+      \begin{tabular}{@{}lr@{}}
+        \toprule
+        statistic & value\\
+        \midrule
+        mean late slope & 0.001697\\
+        positive-run fraction & 0.002\\
+        positive-run slope & 0.84829\\
+        \bottomrule
+      \end{tabular}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Mechanism}\par
+      \[
+        \sum_{t=0}^{\infty}0.99^t = 100 < \infty.
+      \]
+      \begin{itemize}
+        \item Only a finite expected amount of random exploration is scheduled.
+        \item Most runs identify the optimal arm before exploration disappears.
+        \item A rare early error can survive and then accumulate near-linear regret.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}

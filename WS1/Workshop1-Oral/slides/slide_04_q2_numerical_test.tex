@@ -1,0 +1,37 @@
+\begin{frame}{How do we test sublinearity numerically?}
+  \framesubtitle{Q2}
+  \vspace{0.10cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.31\textwidth}
+      \textbf{1. Normalised regret}
+      \[
+        \widehat\rho_T=\frac{\widehat R_T}{T}
+      \]
+      \smallnote{Sublinear behaviour requires \(\widehat\rho_T\) to trend toward zero as the horizon grows.}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \textbf{2. Incremental slope}
+      \[
+        \widehat s_{i}=\frac{\widehat R_{T_{i+1}}-\widehat R_{T_i}}
+        {T_{i+1}-T_i}
+      \]
+      \smallnote{A falling late-horizon slope indicates decreasing marginal regret.}
+    \end{column}
+    \begin{column}{0.31\textwidth}
+      \textbf{3. Effective exponent}
+      \[
+        \widehat\alpha_i=
+        \frac{\log \widehat R_{T_{i+1}}-\log \widehat R_{T_i}}
+        {\log T_{i+1}-\log T_i}
+      \]
+      \smallnote{Values below one are consistent with \(\widehat R_T\propto T^{\alpha}\) over that interval.}
+    \end{column}
+  \end{columns}
+  \vspace{0.42cm}
+  \flatbox{
+    \textbf{Protocol.} Evaluate a common set of horizons
+    \(\{10^3,3\!\times\!10^3,10^4,3\!\times\!10^4,10^5\}\), average over 500 reruns, and examine all three diagnostics together.
+  }
+  \vspace{0.08cm}
+  \micro{These are finite-horizon diagnostics. They provide evidence consistent with or against sublinearity; they do not prove an asymptotic theorem.}
+\end{frame}

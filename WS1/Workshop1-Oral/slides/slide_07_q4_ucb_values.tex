@@ -1,0 +1,28 @@
+\begin{frame}{UCB arm-value estimation}
+  \framesubtitle{Q4}
+  \vspace{-0.08cm}
+  \centering
+  \includegraphics[width=0.85\linewidth]{q4_ucb_arm_value_rmse.png}
+  \vspace{-0.01cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.34\textwidth}
+      \textbf{Final mean arm-wise RMSE}\par
+      \vspace{0.05cm}
+      {\fontsize{8.4}{9.8}\selectfont
+      \begin{tabular}{@{}cc@{}}
+        \toprule
+        UCB \(c\) & mean RMSE\\
+        \midrule
+        0 & 0.8981\\
+        1 & 0.7254\\
+        2 & \textbf{0.4090}\\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+    \begin{column}{0.61\textwidth}
+      \smallnote{Per arm, \(\mathrm{RMSE}_T(a)=\sqrt{M^{-1}\sum_r(Q_T^{(r)}(a)-q_*(a))^2}\); the table averages this over ten arms.}\par
+      \vspace{0.06cm}
+      \smallnote{\textbf{Result:} larger \(c\) estimates all arms better. This differs from minimising regret.}
+    \end{column}
+  \end{columns}
+\end{frame}

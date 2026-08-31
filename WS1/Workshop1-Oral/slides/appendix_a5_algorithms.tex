@@ -1,0 +1,37 @@
+\begin{frame}{Algorithms used in the comparison}
+  \framesubtitle{BACKUP A5 -- METHODS}
+  \vspace{0.08cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.38\textwidth}
+      \textbf{Epsilon-greedy}\par
+      \vspace{0.06cm}
+      \smallnote{With probability \(1-\varepsilon_t\), select a greedy action; otherwise sample uniformly. Values use sample-average updates.}
+      \vspace{0.30cm}
+
+      \textbf{Upper confidence bound}\par
+      \vspace{0.04cm}
+      {\fontsize{8.8}{10.6}\selectfont
+      \[
+        A_t=\arg\max_a\left[
+          Q_t(a)+c\sqrt{\frac{\log(t+1)}{N_t(a)}}
+        \right].
+      \]}
+      \smallnote{The bonus favours actions with uncertain value estimates.}
+    \end{column}
+    \begin{column}{0.57\textwidth}
+      \textbf{Gradient bandit}\par
+      \vspace{0.05cm}
+      {\fontsize{9.2}{11.1}\selectfont
+      \[
+        \pi_t(a)=
+        \frac{\exp\!\left(H_t(a)-\max_b H_t(b)\right)}
+        {\sum_b\exp\!\left(H_t(b)-\max_j H_t(j)\right)}.
+      \]
+      \[
+        \Delta H_t(a)=\alpha(R_t-\bar R_t)
+        \left(\mathbf{1}_{a=A_t}-\pi_t(a)\right).
+      \]}
+      \smallnote{Preferences are updated by reward advantage relative to the running-average baseline. The shifted softmax is numerically stable.}
+    \end{column}
+  \end{columns}
+\end{frame}

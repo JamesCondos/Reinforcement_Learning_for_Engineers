@@ -1,0 +1,41 @@
+\begin{frame}{Why the exploration schedule matters}
+  \framesubtitle{Q3 -- INTERPRETATION}
+  \vspace{0.12cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.30\textwidth}
+      \textbf{Too little exploration}\par
+      \vspace{0.10cm}
+      \smallnote{\(\varepsilon=0\) and rapidly decaying \(0.90^t\) can commit early to a wrong arm. Their late slopes remain 0.9157 and 0.4049.}
+    \end{column}
+    \begin{column}{0.30\textwidth}
+      \textbf{Persistent fixed exploration}\par
+      \vspace{0.10cm}
+      \smallnote{Fixed \(\varepsilon\) keeps sampling inferior arms. The positive regret rate is small for 0.01 but does not vanish in this experiment.}
+    \end{column}
+    \begin{column}{0.30\textwidth}
+      \textbf{Decaying but persistent}\par
+      \vspace{0.10cm}
+      \smallnote{\(\varepsilon_t=\min\{(k\log(t+1)/(t+1))^{1/3},1\}\) balances continued discovery with decreasing exploration cost.}
+    \end{column}
+  \end{columns}
+
+  \vspace{0.40cm}
+  \flatbox{
+    \begin{columns}[T,onlytextwidth]
+      \begin{column}{0.23\textwidth}
+        {\fontsize{22}{24}\selectfont\bfseries\color{Navy}499/500}\par
+        \smallnote{\(0.99^t\) runs with essentially zero late slope}
+      \end{column}
+      \begin{column}{0.20\textwidth}
+        {\fontsize{22}{24}\selectfont\bfseries\color{Teal}1/500}\par
+        \smallnote{run with late slope 0.8483}
+      \end{column}
+      \begin{column}{0.50\textwidth}
+        \textbf{A low mean can hide a rare catastrophic run.}\par
+        \smallnote{Because \(\sum_t0.99^t<\infty\), exploration eventually becomes negligible; an early wrong commitment can then persist.}
+      \end{column}
+    \end{columns}
+  }
+  \vspace{0.05cm}
+  \micro{Observed positive-run proportion: 0.002. This is descriptive evidence of a lock-in mechanism, not an estimate of its asymptotic probability.}
+\end{frame}

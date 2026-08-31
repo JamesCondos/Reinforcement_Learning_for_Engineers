@@ -1,0 +1,29 @@
+\begin{frame}{Which schedules show sublinear regret?}
+  \framesubtitle{Q3 -- EMPIRICAL EVIDENCE}
+  \vspace{-0.08cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.70\textwidth}
+      \centering
+      \includegraphics[height=5.20cm,keepaspectratio]{epsilon_multihorizon_normalised_regret.png}
+    \end{column}
+    \begin{column}{0.27\textwidth}
+      \textbf{At \(T=10^5\)}
+      \vspace{0.10cm}
+      {\fontsize{9.6}{11.3}\selectfont
+      \begin{tabular}{@{}lr@{}}
+        \toprule
+        schedule & \(\widehat\rho_T\)\\
+        \midrule
+        \(\varepsilon=0\) & 0.9158\\
+        \(\varepsilon=0.01\) & 0.0300\\
+        \(\varepsilon=0.10\) & 0.2207\\
+        polynomial & \textbf{0.3283}\\
+        \(0.99^t\) & 0.0040\\
+        \(0.90^t\) & 0.4052\\
+        \bottomrule
+      \end{tabular}}\par
+      \vspace{0.13cm}
+      \smallnote{Polynomial decay continues to fall with late slope 0.2681. The very small mean for \(0.99^t\) needs a run-level audit.}\par
+    \end{column}
+  \end{columns}
+\end{frame}

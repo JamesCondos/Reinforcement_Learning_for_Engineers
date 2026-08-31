@@ -1,0 +1,40 @@
+\begin{frame}{UCB arm-level estimates at T = 10,000}
+  \framesubtitle{BACKUP A3 -- Q4}
+  \vspace{0.04cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.61\textwidth}
+      {\fontsize{8.6}{10.3}\selectfont
+      \begin{tabular}{@{}rrrr@{}}
+        \toprule
+        arm & \(q_*(a)\) & mean \(Q_T(a)\), \(c=2\) & mean \(N_T(a)\)\\
+        \midrule
+        0 &  0.441 &  0.316 & 9.3\\
+        1 & -0.331 & -0.459 & 5.3\\
+        2 &  2.431 &  2.430 & 9900.0\\
+        3 & -0.252 & -0.321 & 5.7\\
+        4 &  0.110 & -0.004 & 7.2\\
+        5 &  1.582 &  1.526 & 44.0\\
+        6 & -0.909 & -1.058 & 3.8\\
+        7 & -0.592 & -0.755 & 4.4\\
+        8 &  0.188 &  0.090 & 7.6\\
+        9 & -0.330 & -0.423 & 5.3\\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+    \begin{column}{0.34\textwidth}
+      \textbf{Mean arm-wise RMSE}
+      \vspace{0.12cm}
+      \begin{tabular}{@{}cc@{}}
+        \toprule
+        \(c\) & RMSE\\
+        \midrule
+        0 & 0.8981\\
+        1 & 0.7254\\
+        2 & \textbf{0.4090}\\
+        \bottomrule
+      \end{tabular}\par
+      \vspace{0.24cm}
+      \smallnote{Even \(c=2\) allocates almost all pulls to the best arm. Its extra exploration primarily improves estimates of the remaining arms.}
+    \end{column}
+  \end{columns}
+\end{frame}

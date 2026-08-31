@@ -1,0 +1,29 @@
+\begin{frame}{What does sublinear regret mean?}
+  \framesubtitle{Q1}
+  \vspace{0.08cm}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.56\textwidth}
+      {\fontsize{11.8}{14.5}\selectfont
+      \begin{align*}
+        \mathrm{Regret}_T
+          &= \mathbb{E}\!\left[\sum_{t=0}^{T-1}
+             \bigl(q_*(a_*)-q_*(A_t)\bigr)\right],\\[0.18cm]
+        \mathrm{Regret}_T=o(T)
+          &\iff \lim_{T\to\infty}\frac{\mathrm{Regret}_T}{T}=0.
+      \end{align*}}
+      \vspace{0.06cm}
+      \callout{Average opportunity loss vanishes, even though cumulative regret may still grow.}
+    \end{column}
+    \begin{column}{0.39\textwidth}
+      \textbf{Why it matters}
+      \vspace{0.12cm}
+      \begin{itemize}
+        \item The policy spends a vanishing fraction of time on inferior arms.
+        \item Exploration can continue, but its cumulative cost must grow slower than \(T\).
+        \item A straight-looking finite curve is not enough: the growth rate must be tested across horizons.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+  \vfill
+  \micro{Simulation estimator: \(\widehat R_T=M^{-1}\sum_{r=1}^{M}\sum_{t=0}^{T-1}[q_*(a_*)-q_*(A_t^{(r)})]\).}
+\end{frame}
