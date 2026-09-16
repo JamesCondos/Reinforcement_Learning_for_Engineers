@@ -1,0 +1,6 @@
+.vscode/
+tmp/
+Q_Learning-1.zip
+Q_Learning-1/Q_Learning/logs/
+**/__pycache__/
+*.pyc
