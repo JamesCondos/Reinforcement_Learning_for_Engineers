@@ -62,10 +62,10 @@ def train(args):
         while not done:
 
             ### (TODO) Get the action from the agent with agent.sample_action(...)
-            action = ...
+            action = agent.sample_action(state)
 
             ### (TODO) Implement the action
-            step_result = ...
+            step_result = env.step(action)
 
             next_state, reward, terminated, truncated, info = step_result
             done = terminated or truncated
@@ -84,10 +84,10 @@ def train(args):
                 continue
 
             ### (TODO) Sample args.batch_size from the agent's replay buffer
-            batch = ...
+            batch = agent.replay_buffer.sample(args.batch_size)
             
             ### (TODO) Update the agent with the batch
-            update_info = ...
+            update_info = agent.update(batch)
 
             ### Log data
             logger.log_scalar(update_info['critic_loss'], "Network Loss", total_envsteps)

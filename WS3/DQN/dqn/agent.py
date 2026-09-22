@@ -44,7 +44,11 @@ class DQNAgent:
         state = torch.tensor(state_np, dtype=torch.float32).unsqueeze(0).to(self.device)        
         
         ### (TODO) get the action from the critic using an epsilon-greedy strategy
-        action = ...
+        if random.random() < self.epsilon:
+            action = self.env.action_space.sample()
+        else:
+            with torch.no_grad():
+                action = self.q_net(state).argmax(dim=1).item()
         
         return action
     
@@ -59,24 +63,24 @@ class DQNAgent:
         ### 3. Compute target values  
         ### Note that, if the step is the termination (done), there is no next state, i.e. Q(s',a';w-) = 0
         with torch.no_grad():
-            next_qa_values = ...
+            next_qa_values = self.target_net(next_states)
             
-            next_action = ...
+            next_action = next_qa_values.argmax(dim=1, keepdim=True)
 
-            next_q_values = ...
+            next_q_values = next_qa_values.gather(1, next_action)
 
-            target_values = ...
+            target_values = rewards + self.gamma * (1 - dones) * next_q_values
 
 
         ### (TODO) Compute Q(s,a;w_i)
         ### 1. Compute Q(s, : ;w_i) for all actions from the Q network
         ### 2. Gather the value for action taken
-        qa_values = ...
-        q_values = ...
+        qa_values = self.q_net(states)
+        q_values = qa_values.gather(1, actions)
 
         
         ### (TODO) Compute loss, with the given MSE self.loss_function
-        loss = ...
+        loss = self.loss_function(q_values, target_values)
 
         ### Update the critic network wrt computed loss
         self.optimizer.zero_grad()
@@ -87,7 +91,8 @@ class DQNAgent:
         self.total_update_steps += 1
 
         ### (TODO) Update the target network every self.target_update_freq with self.update_target_net()
-        ...
+        if self.total_update_steps % self.target_update_freq == 0:
+            self.update_target_net()
 
         return {        
             "critic_loss": loss.item(),
