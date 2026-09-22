@@ -1,0 +1,91 @@
+Let $\mathcal{A}$ denote the set of available arms. At time step $k$, the
+algorithm selects an arm $A_k\in\mathcal{A}$ and receives a random reward
+$R_k$. The true action value of arm $a$ is
+\[
+    q^\ast(a)
+    =
+    \mathbb{E}\!\left[R_k \mid A_k=a\right],
+\]
+which is the expected reward obtained when arm $a$ is selected.
+
+Let
+\[
+    a^\ast \in \arg\max_{a\in\mathcal{A}} q^\ast(a)
+\]
+be an optimal arm. The best achievable expected reward per time step is then
+\[
+    R^\ast
+    =
+    q^\ast(a^\ast)
+    =
+    \max_{a\in\mathcal{A}} q^\ast(a).
+\]
+Thus, $R^\ast$ is a deterministic expected reward, whereas $R_k$ is the
+random reward actually observed at time step $k$.
+
+The cumulative expected regret after $t$ time steps is defined as
+\begin{equation}
+    \operatorname{Regret}_t
+    =
+    \mathbb{E}\!\left[
+        \sum_{k=1}^{t}
+        \left(R^\ast-R_k\right)
+    \right].
+    \label{eq:q1-regret}
+\end{equation}
+The expectation in \eqref{eq:q1-regret} accounts for the randomness in the
+observed rewards and, where applicable, the randomisation of the bandit
+policy. In particular, if arm $a$ is selected at time $k$, its expected
+one-step regret is
+\[
+    R^\ast-q^\ast(a)\geq 0.
+\]
+Hence, regret measures the expected cumulative loss in reward caused by not
+knowing the optimal arm in advance.
+
+A bandit algorithm is said to have \emph{sublinear regret} if
+\begin{equation}
+    \lim_{t\to\infty}
+    \frac{\operatorname{Regret}_t}{t}
+    =
+    0,
+    \label{eq:q1-sublinear-regret}
+\end{equation}
+or equivalently,
+\[
+    \operatorname{Regret}_t=o(t).
+\]
+
+Using \eqref{eq:q1-regret},
+\begin{align}
+    \frac{\operatorname{Regret}_t}{t}
+    &=
+    \frac{1}{t}
+    \mathbb{E}\!\left[
+        \sum_{k=1}^{t}
+        \left(R^\ast-R_k\right)
+    \right]
+    \notag\\
+    &=
+    R^\ast
+    -
+    \mathbb{E}\!\left[
+        \frac{1}{t}\sum_{k=1}^{t}R_k
+    \right].
+    \label{eq:q1-average-regret}
+\end{align}
+Therefore, by \eqref{eq:q1-sublinear-regret} and
+\eqref{eq:q1-average-regret}, sublinear regret implies
+\[
+    \lim_{t\to\infty}
+    \mathbb{E}\!\left[
+        \frac{1}{t}\sum_{k=1}^{t}R_k
+    \right]
+    =
+    R^\ast.
+\]
+
+Thus, the significance of sublinear regret is that the average expected
+reward of the learning algorithm converges to the best achievable expected
+reward. Although the algorithm incurs regret while exploring and learning
+which arm is optimal, the regret per time step vanishes asymptotically.

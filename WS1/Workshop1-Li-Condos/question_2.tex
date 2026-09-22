@@ -1,0 +1,247 @@
+% Online sync refresh: revised workshop report, 2026-08-29.
+The definition of sublinear regret requires
+\[
+    \lim_{T\to\infty}
+    \frac{\operatorname{Regret}_T}{T}
+    =
+    0,
+\]
+which is the standard asymptotic criterion used in multi-armed bandit
+regret analysis. Therefore, a natural numerical
+test is to estimate the regret at a sequence of increasingly large horizons
+and examine its asymptotic growth.
+
+Suppose the experiment is repeated independently for $M$ runs, and let
+$A_t^{(r)}$ denote the arm selected at time $t$ in run $r$. Since the
+synthetic bandit environment is known to us, the optimal expected reward is
+\[
+    R^\ast
+    =
+    \max_{a\in\mathcal A} q^\ast(a).
+\]
+The true action values $q^\ast(a)$ are used only for performance evaluation
+after an action has been selected; they are not made available to the
+learning algorithm.
+
+For run $r$, define the cumulative pseudo-regret at horizon $T$ as
+\[
+    C_T^{(r)}
+    =
+    \sum_{t=1}^{T}
+    \left[
+        R^\ast-q^\ast\!\left(A_t^{(r)}\right)
+    \right].
+\]
+Averaging over the $M$ independent reruns gives the empirical estimate
+\[
+    \widehat{\operatorname{Regret}}_T
+    =
+    \frac{1}{M}
+    \sum_{r=1}^{M}
+    C_T^{(r)}.
+\]
+
+The first diagnostic is the normalised empirical regret
+\begin{equation}
+    \widehat{\rho}_T
+    =
+    \frac{\widehat{\operatorname{Regret}}_T}{T}.
+    \label{eq:q2-normalised-regret}
+\end{equation}
+By the definition of sublinear regret,
+\eqref{eq:q2-normalised-regret} should approach zero as $T$ increases.
+However, examining this quantity at only one finite horizon can be
+misleading. For example, if
+\[
+    \operatorname{Regret}_T=C+cT,
+    \qquad c>0,
+\]
+then
+\[
+    \frac{\operatorname{Regret}_T}{T}
+    =
+    \frac{C}{T}+c
+\]
+may decrease substantially with $T$, even though it eventually converges
+to the positive constant $c$ and the regret is therefore linear.
+
+To distinguish such transient behaviour from genuinely sublinear growth,
+we additionally evaluate the incremental regret rate between successive
+horizons $T_i<T_{i+1}$:
+\begin{equation}
+    \widehat{s}_i
+    =
+    \frac{
+        \widehat{\operatorname{Regret}}_{T_{i+1}}
+        -
+        \widehat{\operatorname{Regret}}_{T_i}
+    }{
+        T_{i+1}-T_i
+    }.
+    \label{eq:q2-incremental-rate}
+\end{equation}
+This is the average slope of the cumulative-regret curve over the interval
+$[T_i,T_{i+1}]$.
+
+The use of \eqref{eq:q2-incremental-rate} follows directly from the
+definition of sublinear regret. Consider geometrically increasing horizons
+$T_{i+1}=cT_i$, where $c>1$. Since cumulative pseudo-regret is non-negative
+and non-decreasing,
+\[
+    0
+    \leq
+    \widehat{s}_i
+    \leq
+    \frac{
+        \widehat{\operatorname{Regret}}_{cT_i}
+    }{
+        (c-1)T_i
+    }
+    =
+    \frac{c}{c-1}
+    \frac{
+        \widehat{\operatorname{Regret}}_{cT_i}
+    }{
+        cT_i
+    }.
+\]
+Hence, if the underlying regret is sublinear, the right-hand side approaches
+zero as the horizon increases, and therefore the incremental regret rate
+should also approach zero. In contrast, if
+\[
+    \operatorname{Regret}_T
+    \sim c_0 T,
+    \qquad c_0>0,
+\]
+then
+\[
+    \widehat{s}_i
+    \longrightarrow
+    c_0,
+\]
+so a positive late-horizon plateau in the incremental regret rate provides
+numerical evidence of linear regret.
+
+As a supplementary diagnostic, the local effective growth exponent is
+estimated by
+\[
+    \widehat{\alpha}_i
+    =
+    \frac{
+        \log
+        \widehat{\operatorname{Regret}}_{T_{i+1}}
+        -
+        \log
+        \widehat{\operatorname{Regret}}_{T_i}
+    }{
+        \log T_{i+1}-\log T_i
+    }.
+\]
+If locally
+$\widehat{\operatorname{Regret}}_T\approx CT^\alpha$, then
+$\widehat{\alpha}_i\approx\alpha$. Thus,
+$\widehat{\alpha}_i$ approaching $1$ supports locally approximately linear
+power-law growth, whereas values remaining below $1$ support a sublinear
+power-law interpretation. However, $\widehat{\alpha}_i$ is neither a
+necessary nor a sufficient test for sublinear regret. For example, the
+sublinear function $T/\log T$ also has a local effective exponent approaching
+$1$. The normalised regret and incremental regret rate are therefore the
+primary diagnostics, while the effective exponent is supplementary.
+
+The proposed numerical procedure is therefore to simulate each algorithm
+up to a maximum horizon and record its cumulative pseudo-regret at several
+geometrically increasing horizons, for example
+\[
+    T\in
+    \{10^3,\,3\times10^3,\,10^4,\,3\times10^4,\,10^5\}.
+\]
+The experiment is repeated for many independent runs and
+$\widehat{\operatorname{Regret}}_T$,
+$\widehat{\rho}_T$,
+$\widehat{s}_i$, and
+$\widehat{\alpha}_i$
+are calculated.
+
+Numerical behaviour is considered consistent with sublinear regret when,
+over the largest simulated horizons,
+\[
+    \widehat{\rho}_T
+    \longrightarrow 0
+    \qquad\text{and}\qquad
+    \widehat{s}_i
+    \longrightarrow 0,
+\]
+based on their observed multi-horizon trends. Conversely, a positive
+late-horizon incremental regret rate provides evidence of a linear
+component. The effective exponent may support a local power-law
+interpretation, but it is not used as an automatic classification rule.
+
+Because only finitely many horizons and reruns can be simulated, this test
+cannot prove an asymptotic regret property. It provides numerical evidence
+by examining whether the observed large-horizon growth is consistent with
+the mathematical definition of sublinear regret.
+
+
+The proposed numerical procedure is summarised in
+Algorithm~\ref{alg:q2-sublinear-test}.
+
+\begin{algorithm}[H]
+\caption{Multi-horizon numerical test for sublinear regret}
+\label{alg:q2-sublinear-test}
+\begin{algorithmic}[1]
+\Require Bandit policy $\pi$, horizons
+$T_1<\cdots<T_L$, number of reruns $M$
+
+\For{$r=1,\ldots,M$}
+    \State Simulate $\pi$ up to $T_L$
+    \State Record cumulative pseudo-regret
+    $C_{T_i}^{(r)}$ at each horizon $T_i$
+\EndFor
+
+\For{$i=1,\ldots,L$}
+    \State Estimate
+    $\widehat{\operatorname{Regret}}_{T_i}
+    \gets \frac{1}{M}\sum_{r=1}^{M}C_{T_i}^{(r)}$
+    \State Compute
+    $\widehat{\rho}_{T_i}
+    \gets \widehat{\operatorname{Regret}}_{T_i}/T_i$
+\EndFor
+
+\For{$i=1,\ldots,L-1$}
+    \State Compute incremental regret rate
+    \[
+        \widehat{s}_i
+        \gets
+        \frac{
+            \widehat{\operatorname{Regret}}_{T_{i+1}}
+            -
+            \widehat{\operatorname{Regret}}_{T_i}
+        }{
+            T_{i+1}-T_i
+        }
+    \]
+    \State Compute effective exponent
+    \[
+        \widehat{\alpha}_i
+        \gets
+        \frac{
+            \log \widehat{\operatorname{Regret}}_{T_{i+1}}
+            -
+            \log \widehat{\operatorname{Regret}}_{T_i}
+        }{
+            \log T_{i+1}-\log T_i
+        }
+    \]
+\EndFor
+
+\State Examine the late-horizon trends of the primary diagnostics
+$\widehat{\rho}_{T_i}$ and $\widehat{s}_i$
+
+\State Use $\widehat{\alpha}_i$ only as a supplementary local
+power-law diagnostic
+
+\State Interpret the measured trends manually; do not apply a fixed
+numerical classification threshold
+
+\end{algorithmic}
+\end{algorithm}

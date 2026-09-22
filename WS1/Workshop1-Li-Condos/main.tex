@@ -1,0 +1,228 @@
+\documentclass[11pt,a4paper]{article}  % online-sync
+% Online sync refresh: revised workshop report, 2026-08-29.
+
+% ============================================================
+% Packages
+% ============================================================
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{microtype}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+% ============================================================
+% Python code formatting
+% ============================================================
+
+\lstdefinestyle{python}{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    breaklines=true,
+    columns=fullflexible,
+    keepspaces=true,
+    showstringspaces=false,
+    tabsize=4
+}
+
+% ============================================================
+% Equation numbering
+% ============================================================
+
+\newcommand{\questionequations}[1]{%
+    \setcounter{equation}{0}%
+    \renewcommand{\theequation}{#1.\arabic{equation}}%
+    \renewcommand{\theHequation}{#1.\arabic{equation}}%
+}
+
+% ============================================================
+% Student information
+% ============================================================
+
+\newcommand{\studentonename}{Ray Li}
+\newcommand{\studentoneid}{1355858}
+
+\newcommand{\studenttwoname}{James Condos}
+\newcommand{\studenttwoid}{}
+
+% ============================================================
+% Header configuration
+% ============================================================
+
+\fancyhf{}
+\fancyhead[L]{\textsc{ELEN90098}}
+\fancyhead[R]{\textsc{Reinforcement Learning for Engineering}}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\setlength{\headheight}{14pt}
+
+% ============================================================
+% Paragraph formatting
+% ============================================================
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.6em}
+
+% ============================================================
+% Document
+% ============================================================
+
+\begin{document}
+
+% ============================================================
+% Cover page
+% ============================================================
+
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+\thispagestyle{empty}
+\centering
+
+\vspace*{2.5cm}
+
+{\Large\textsc{The University of Melbourne}\par}
+
+\vspace{1.5cm}
+
+{\Large ELEN90098\par}
+
+\vspace{0.3cm}
+
+{\Large Reinforcement Learning for Engineering\par}
+
+\vspace{2.5cm}
+
+{\Huge\bfseries Workshop 1\par}
+
+\vspace{0.4cm}
+
+{\LARGE Multi-Armed Bandits\par}
+
+\vfill
+
+\begin{tabular}{rl}
+    \textbf{Student 1:}     & \studentonename \\[0.15cm]
+    \textbf{Student ID:}   & \studentoneid \\[0.6cm]
+
+    \textbf{Student 2:}     & \studenttwoname \\[0.15cm]
+    \textbf{Student ID:}   & \studenttwoid
+\end{tabular}
+
+\vfill
+
+{\large Semester 2, 2026\par}
+
+\vspace{1.5cm}
+
+\end{titlepage}
+\hypersetup{pageanchor=true}
+
+% ============================================================
+% Main document
+% ============================================================
+
+\pagestyle{fancy}
+\setcounter{page}{1}
+
+% ------------------------------------------------------------
+% Question 1
+% ------------------------------------------------------------
+
+\section*{Question 1}
+\questionequations{1}
+\input{question_1}
+
+\newpage
+
+% ------------------------------------------------------------
+% Question 2
+% ------------------------------------------------------------
+
+\section*{Question 2}
+\questionequations{2}
+\input{question_2}
+
+\newpage
+
+% ------------------------------------------------------------
+% Question 3
+% ------------------------------------------------------------
+
+\section*{Question 3}
+\questionequations{3}
+\input{question_3}
+
+\newpage
+
+% ------------------------------------------------------------
+% Question 4
+% ------------------------------------------------------------
+
+\section*{Question 4}
+\questionequations{4}
+\input{question_4}
+
+\newpage
+
+% ------------------------------------------------------------
+% Question 5
+% ------------------------------------------------------------
+
+\section*{Question 5}
+\questionequations{5}
+\input{question_5}
+
+\newpage
+
+% ------------------------------------------------------------
+% Question 6
+% ------------------------------------------------------------
+
+\section*{Question 6}
+\questionequations{6}
+\input{question_6}
+
+\newpage
+
+% ------------------------------------------------------------
+% Question 7
+% ------------------------------------------------------------
+
+\section*{Question 7}
+\questionequations{7}
+\input{question_7}
+
+% ============================================================
+% Appendix
+% ============================================================
+
+\newpage
+\appendix
+\input{appendix}
+
+% ============================================================
+% References
+% ============================================================
+
+
+\end{document}

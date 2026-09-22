@@ -1,0 +1,9 @@
+**/tmp/
+**/__pycache__/
+*.pyc
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
