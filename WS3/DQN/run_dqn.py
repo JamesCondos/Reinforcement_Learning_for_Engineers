@@ -2,7 +2,10 @@ import gymnasium as gym
 import numpy as np
 import torch
 import argparse
+import csv
+import json
 import os
+import random
 import time
 
 from dqn.agent import DQNAgent
@@ -23,7 +26,11 @@ def train(args):
     log_dir = os.path.join(log_dir, log_name)
     if not (os.path.exists(log_dir)):
         os.makedirs(log_dir)
-    logger = Logger(log_dir=log_dir)
+    logger = Logger(log_dir=log_dir, enabled=not args.no_tensorboard)
+
+    random.seed(args.seed)
+    np.random.seed(args.seed)
+    torch.manual_seed(args.seed)
     
     render_mode = None    
     if args.render:
@@ -31,6 +38,8 @@ def train(args):
     
     env = gym.make(args.env_name,render_mode=render_mode)
     eval_env = gym.make(args.env_name)
+    env.action_space.seed(args.seed)
+    eval_env.action_space.seed(args.seed)
 
     discrete = isinstance(env.action_space, gym.spaces.Discrete)
     assert discrete, "DQN only supports discrete action space"
@@ -50,11 +59,12 @@ def train(args):
     
     total_envsteps = 0
     returns = []
+    evaluation_returns = []
     update_info = None
 
     for episode in range(args.episodes):
         
-        state, _ = env.reset()
+        state, _ = env.reset(seed=args.seed + episode)
         episode_reward = 0
         episode_step = 0
         done = False
@@ -102,9 +112,16 @@ def train(args):
         logger.log_scalar(agent.epsilon, "_Epsilon", episode)
 
         if (episode+1) % 10 == 0: 
-                        
+            training_epsilon = agent.epsilon
+            agent.epsilon = 0.0
             eval_batch = collect_trajectories(eval_env, agent, 1, render=False)
+            agent.epsilon = training_epsilon
             eval_return = np.sum(eval_batch['rewards'])
+            evaluation_returns.append({
+                "episode": episode + 1,
+                "environment_steps": total_envsteps,
+                "evaluation_return": float(eval_return),
+            })
             logger.log_scalar(eval_return, "Eval Returns", total_envsteps)
 
             if update_info:
@@ -123,7 +140,29 @@ def train(args):
         video = torch.tensor(final_batch['images']).permute(0,1,4,2,3)  # [N,T,H,W,C] → [N,T,C,H,W]
         print("Logging video")
         logger.log_video(video, "Final Video", step=1)
-        
+
+    if args.results_dir:
+        os.makedirs(args.results_dir, exist_ok=True)
+        with open(os.path.join(args.results_dir, "evaluation_returns.csv"), "w", newline="") as file:
+            writer = csv.DictWriter(file, fieldnames=["episode", "environment_steps", "evaluation_return"])
+            writer.writeheader()
+            writer.writerows(evaluation_returns)
+        with open(os.path.join(args.results_dir, "training_returns.csv"), "w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow(["episode", "training_return"])
+            writer.writerows(enumerate(returns, start=1))
+        config = vars(args).copy()
+        config["device"] = str(config["device"])
+        config["total_environment_steps"] = total_envsteps
+        with open(os.path.join(args.results_dir, "config.json"), "w") as file:
+            json.dump(config, file, indent=2, sort_keys=True)
+        torch.save(agent.q_net.state_dict(), os.path.join(args.results_dir, "final_model.pt"))
+
+    logger.dump_scalars()
+    logger.flush()
+    env.close()
+    eval_env.close()
+    return evaluation_returns
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Deep Q Learning")
@@ -145,10 +184,15 @@ if __name__ == '__main__':
     parser.add_argument("--epsilon_min", type=float, default=0.0, help="minimum epsilon")
     parser.add_argument("--epsilon_decay", type=float, default=0.995, help="epsilon decay weight")
     parser.add_argument("--exp_name", default=None, help="add extra info to log")
+    parser.add_argument("--results_dir", default=None, help="directory for CSV results and final model")
+    parser.add_argument("--seed", type=int, default=0, help="random seed")
+    parser.add_argument("--no_tensorboard", action="store_true", help="disable TensorBoard event writing")
+    parser.add_argument("--device", choices=["auto", "cpu", "cuda"], default="auto")
     args = parser.parse_args()
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    # device = 'cpu'
-    args.device = device
+    args.device = torch.device(
+        "cuda" if args.device == "auto" and torch.cuda.is_available() else
+        "cpu" if args.device == "auto" else args.device
+    )
 
     train(args)

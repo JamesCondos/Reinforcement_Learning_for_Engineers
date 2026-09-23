@@ -1,3 +1,4 @@
 .vscode/
 logs/
 Results/.matplotlib_cache/
+.venv/
